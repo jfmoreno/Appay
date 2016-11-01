@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 26-10-2016 a las 19:09:32
+-- Tiempo de generación: 31-10-2016 a las 16:21:07
 -- Versión del servidor: 10.0.17-MariaDB
 -- Versión de PHP: 5.6.14
 
@@ -8371,15 +8371,17 @@ CREATE TABLE `Producto` (
   `Imagen` text NOT NULL,
   `Descripcion` text NOT NULL,
   `Stock` int(11) NOT NULL,
-  `URL_video` text NOT NULL
+  `URL_video` text NOT NULL,
+  `Estado` tinyint(1) NOT NULL DEFAULT '1',
+  `Eliminado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `Producto`
 --
 
-INSERT INTO `Producto` (`Id_producto`, `Codigo`, `Nombre`, `Precio`, `Imagen`, `Descripcion`, `Stock`, `URL_video`) VALUES
-(1, 234, 'wfwfd', 321421.76, 'khjqwdjg', 'deceiaiushd', 11, 'www.pornotube.com');
+INSERT INTO `Producto` (`Id_producto`, `Codigo`, `Nombre`, `Precio`, `Imagen`, `Descripcion`, `Stock`, `URL_video`, `Estado`, `Eliminado`) VALUES
+(1, 234, 'wfwfd', 321421.76, 'khjqwdjg', 'deceiaiushd', 11, 'www.pornotube.com', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -8534,15 +8536,17 @@ CREATE TABLE `Usuarios` (
   `Telefono` int(11) NOT NULL,
   `Foto` text NOT NULL,
   `Contra` varchar(20) NOT NULL,
-  `Rol` int(11) NOT NULL
+  `Rol` int(11) NOT NULL,
+  `Estado` tinyint(1) NOT NULL DEFAULT '1',
+  `Eliminado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `Usuarios`
 --
 
-INSERT INTO `Usuarios` (`Id_usuario`, `DNI`, `Email`, `Nombre`, `Direccion`, `Comunidad`, `Provincia`, `Localidad`, `CP`, `Telefono`, `Foto`, `Contra`, `Rol`) VALUES
-(1, '48667677E', 'pablolope93@gmail.com', 'Pablo', 'C-.kasdgasgfijphil', 1, 2, 3, 3680, 667081603, '/barcosYputas', '666666', 0);
+INSERT INTO `Usuarios` (`Id_usuario`, `DNI`, `Email`, `Nombre`, `Direccion`, `Comunidad`, `Provincia`, `Localidad`, `CP`, `Telefono`, `Foto`, `Contra`, `Rol`, `Estado`, `Eliminado`) VALUES
+(1, '48667677E', 'pablolope93@gmail.com', 'Pablo', 'C-.kasdgasgfijphil', 1, 2, 3, 3680, 667081603, '/barcosYputas', '666666', 0, 1, 0);
 
 -- --------------------------------------------------------
 
