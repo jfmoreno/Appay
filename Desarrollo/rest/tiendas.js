@@ -164,7 +164,7 @@ function getGranSuperficie (app, connection) {
 	
 		if(id != null){ //Si en la URI existe se crea la consulta de busqueda por id
 			var consulta="SELECT * FROM gran_superficie WHERE Id_gran_superficie="+id;
-		}else{ //Si no muestra todos los usuarios
+		}else{ //Si no muestra todos las grandes superficies
 			var consulta = "SELECT * FROM gran_superficie";
 		}
 		
@@ -233,7 +233,6 @@ function updateGranSuperficie (app, connection){
 					consulta = consulta + " Imagen='"+Imagen+"'";
 				}
 				
-				
 				consulta = consulta + " WHERE Id_gran_superficie="+ID;
 				console.log(consulta);
 			}
@@ -254,6 +253,35 @@ function updateGranSuperficie (app, connection){
 
 }
 
+//Metodo que permite la visualizacion de las coordenadas
+function getCoordenadas(app, connection){
+	  app.get('/tiendas/coordenadas',function(req,res){
+		var data = {
+			"Errores":1,
+			"Tiendas":""
+		};
+
+		var id = req.query.id; //Variable que recoje el id de la tienda de la URI tienda?id={num}
+	
+		if(id != null){ //Si en la URI existe se crea la consulta de busqueda por id
+			var consulta="SELECT Latitud, Longitud FROM tienda WHERE Id_tienda="+id;
+		}else{ //Si no muestra todas las tiendas
+			var consulta = "SELECT Latitud, Longitud FROM tienda";
+		}
+		
+		connection.query(consulta,function(err, rows, fields){
+			if(rows.length != 0){
+				data["Errores"] = 0;
+				data["Tiendas"] = rows;
+				res.json(data);				
+			}else{
+				data["Tiendas"] = 'No hay grandes superficies';
+				res.json(data);
+			}
+		});
+	});
+}
+
 
 
 exports.getTiendas = getTiendas;
@@ -262,3 +290,4 @@ exports.updateTiendas = updateTiendas;
 exports.postGranSuperficie = postGranSuperficie;
 exports.getGranSuperficie = getGranSuperficie;
 exports.updateGranSuperficie = updateGranSuperficie;
+exports.getCoordenadas = getCoordenadas;

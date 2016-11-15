@@ -5,11 +5,13 @@ var bodyParser = require("body-parser");
 var usuarios = require('./usuarios'); //Obtengo el archivo js de usuarios
 var productos = require('./productos'); //Obtengo el archivo js de productos
 var tiendas = require('./tiendas'); //Obtengo el archivo js de tiendas
+var facturas = require('./facturas'); //Obtengo el archivo js de facturas
 var connection = mysql.createConnection({ //Conexion a la BBDD de MySQL
 		host     : 'localhost',
 		user     : 'root',
 		password : '',
 		database : 'Appay_bbdd',
+		multipleStatements: true
 });
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -35,6 +37,11 @@ tiendas.updateTiendas(app, connection);
 tiendas.postGranSuperficie(app, connection);
 tiendas.getGranSuperficie(app, connection);
 tiendas.updateGranSuperficie(app, connection);
+tiendas.getCoordenadas(app, connection);
+
+//Llamo a los metodos de la clase facturas
+facturas.getFacturas(app, connection);
+
 
 //Mensaje de que se esta conectando el puerto
 http.listen(8080,function(){
