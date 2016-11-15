@@ -15,9 +15,9 @@ function getTiendas (app, connection) {
 		var id = req.query.id; //Variable que recoje el id de la tienda de la URI tienda?id={num}
 	
 		if(id != null){ //Si en la URI existe se crea la consulta de busqueda por id
-			var consulta="SELECT * FROM tienda WHERE Id_Tienda="+id;
+			var consulta="SELECT t.Id_Tienda, t.NIF, t.Nombre, t.Direccion, m.Municipio, p.Provincia, c.Comunidad, t.Latitud, t.Longitud, t.Id_gran_superficie, t.Estado, t.Eliminado FROM tienda t  JOIN municipios m ON t.Municipio=m.Id JOIN comunidades c ON t.Comunidad=c.Id JOIN provincias p ON t.Provincia=p.Id WHERE Id_Tienda="+id;
 		}else{ //Si no muestra todos los usuarios
-			var consulta = "SELECT * FROM tienda";
+			var consulta = "SELECT t.Id_Tienda, t.NIF, t.Nombre, t.Direccion, m.Municipio, p.Provincia, c.Comunidad, t.Latitud, t.Longitud, t.Id_gran_superficie, t.Estado, t.Eliminado FROM tienda t  JOIN municipios m ON t.Municipio=m.Id JOIN comunidades c ON t.Comunidad=c.Id JOIN provincias p ON t.Provincia=p.Id";
 		}
 		
 		connection.query(consulta,function(err, rows, fields){
@@ -45,26 +45,196 @@ function postTiendas (app, connection){
 		var Longitud = req.body.longitud;
 		var Latitud = req.body.latitud;
 		var ID_granSuperficie = req.body.gransuperficie;
+		var NIF = req.body.nif;
+		var Estado = req.body.estado;
+		var Eliminado = req.body.eliminado;
 		var data = {
 			"Errores":1,
 			"Tiendas":""
 		};
-		if(Nombre && Direccion && Provincia && Localidad && Comunidad && Longitud && Latitud && ID_granSuperficie){
-			connection.query("INSERT INTO tienda VALUES('',?,?,?,?,?,?,?,?)",[Nombre, Direccion, Provincia, Localidad, Comunidad, Longitud, Latitud, ID_granSuperficie],function(err, rows, fields){
-				if(err){
-					data["Tiendas"] = "Error: puede que algun campo este mal introducido";
-					console.log(err);
-				}else{
-					data["Errores"] = 0;
-					data["Tiendas"] = "Datos insertados correctamente!";
-					res.json(data);
-				}
-			});
-
-		}else{
-			data["Tiendas"] = "Porfavor introduce todos los campos";
-			res.json(data);
+		var consulta = "INSERT INTO facturas (";
+		var i=0;
+		if(Nombre != null){
+			consulta  += "'Nombre='";
+			i++;
 		}
+		if(Direccion != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'Direccion'";
+			i++;
+		}
+		if(Provincia != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'Provincia'";
+			i++;
+		}
+		if(Localidad != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'Localidad'";
+			i++;
+		}
+		if(Comunidad != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'Comunidad'";
+			i++;
+		}
+		if(Longitud != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'Longitud'";
+			i++;
+		}
+		if(Latitud != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'Latitud'";
+			i++;
+		}
+		if(ID_granSuperficie != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'id_gran_superficie'";
+			i++;
+		}
+		if(NIF != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'NIF'";
+			i++;
+		}
+		if(Estado != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'Estado'";
+			i++;
+		}
+		if(Eliminado != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'Eliminado'";
+			i++;
+		}
+		consulta+=") VALUES (";
+		var i=0;
+		if(Nombre != null){
+			consulta  += "'"+Nombre+"'";
+			i++;
+		}
+		if(Direccion != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'"+Direccion+"'";
+			i++;
+		}
+		if(Provincia != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'"+Provincia+"'";
+			i++;
+		}
+		if(Localidad != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'"+Localidad+"'";
+			i++;
+		}
+		if(Comunidad != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'"+Comunidad+"'";
+			i++;
+		}
+		if(Longitud != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'"+Longitud+"'";
+			i++;
+		}
+		if(Latitud != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'"+Latitud+"'";
+			i++;
+		}
+		if(ID_granSuperficie != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'"+Id_gran_superficie+"'";
+			i++;
+		}
+		if(NIF != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'"+NIF+"'";
+			i++;
+		}
+		if(Estado != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'"+Estado+"'";
+			i++;
+		}
+		if(Eliminado != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'"+Eliminado+"'";
+			i++;
+		}
+		consulta+=")"
+		connection.query(consulta,function(err, rows, fields){
+			if(err){
+				data["Tiendas"] = "Error: puede que algun campo este mal introducido";
+				console.log(err);
+			}else{
+				data["Errores"] = 0;
+				data["Tiendas"] = "Datos insertados correctamente!";
+				res.json(data);
+			}
+		});
 	});
 }
 
@@ -81,62 +251,104 @@ function updateTiendas (app, connection){
 		var Longitud = req.body.longitud;
 		var Latitud = req.body.latitud;
 		var ID_granSuperficie = req.body.gransuperficie;
+		var NIF = req.body.nif;
+		var Estado = req.body.estado;
+		var Eliminado = req.body.eliminado;
 		var data = {
 			"Errores":1,
 			"Tiendas":""
 		};
-
 		var consulta = "UPDATE tienda SET ";
-		var sets = [];
 		var i = 0;
 			if(ID != null){
 				if(Nombre != null){
-					sets[i]  = "Nombre='"+Nombre+"'";
+					consulta  += "Nombre='"+Nombre+"'";
 					i++;
 				}
 				if(Direccion != null){
-					sets[i]  = "Direccion='"+Direccion+"'";
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "Direccion='"+Direccion+"'";
 					i++;
 				}
 				if(Provincia != null){
-					sets[i]  = "Provincia='"+Provincia+"'";
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "Provincia='"+Provincia+"'";
 					i++;
 				}
 				if(Localidad != null){
-					sets[i]  = "Localidad='"+Localidad+"'";
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "Localidad='"+Localidad+"'";
 					i++;
 				}
 				if(Comunidad != null){
-					sets[i]  = "Comunidad='"+Comunidad+"'";
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "Comunidad='"+Comunidad+"'";
 					i++;
 				}
 				if(Longitud != null){
-					sets[i]  = "Longitud='"+Longitud+"'";
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "Longitud='"+Longitud+"'";
 					i++;
 				}
 				if(Latitud != null){
-					sets[i]  = "Latitud='"+Latitud+"'";
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "Latitud='"+Latitud+"'";
 					i++;
 				}
 				if(ID_granSuperficie != null){
-					sets[i]  = "id_gran_superficie='"+ID_granSuperficie+"'";
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "id_gran_superficie='"+ID_granSuperficie+"'";
+					i++;
+				}
+				if(NIF != null){
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "NIF='"+NIF+"'";
+					i++;
+				}
+				if(Estado != null){
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "Estado='"+Estado+"'";
+					i++;
+				}
+				if(Eliminado != null){
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "Eliminado='"+Eliminado+"'";
 					i++;
 				}
 				
-				var prueba ="";
-					for(var j = 0; j<sets.length; j++){
-						if((j + 1) != sets.length){
-							consulta = consulta + sets[j] + ", ";
-						}else{
-							consulta = consulta + sets[j];
-						}
-					}
-
 				consulta = consulta + " WHERE Id_Tienda="+ID;
 				console.log(consulta);
 			}
-
-			
 
 		connection.query(consulta,function(err, rows, fields){
 				if(err){

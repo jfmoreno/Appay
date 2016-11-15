@@ -15,9 +15,9 @@ function getUsuarios (app, connection) {
 		var id = req.query.id; //Variable que recoje el id del usuario de la URI usuarios?id={num}
 	
 		if(id != null){ //Si en la URI existe se crea la consulta de busqueda por id
-			var consulta="SELECT * from usuarios where Id_usuario="+id;
+			var consulta="SELECT u.Id_usuario, u.DNI, u.Nombre, u.Email, u.Direccion, c.Comunidad, p.Provincia, m.Municipio, u.CP, u.Telefono, u.Foto, u.Rol, u.Estado, u.Eliminado FROM usuarios u JOIN municipios m ON m.Id = u.Municipio JOIN comunidades c ON c.Id = u.Comunidad JOIN provincias p ON p.Id = u.Provincia WHERE Id_usuario="+id;
 		}else{ //Si no muestra todos los usuarios
-			var consulta = "SELECT * from usuarios";
+			var consulta = "SELECT u.Id_usuario, u.DNI, u.Nombre, u.Email, u.Direccion, c.Comunidad, p.Provincia, m.Municipio, u.CP, u.Telefono, u.Foto, u.Rol, u.Estado, u.Eliminado FROM usuarios u JOIN municipios m ON m.Id = u.Municipio JOIN comunidades c ON c.Id = u.Comunidad JOIN provincias p ON p.Id = u.Provincia";
 		}
 		
 		connection.query(consulta,function(err, rows, fields){

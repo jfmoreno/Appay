@@ -26,6 +26,7 @@ function getFacturas (app, connection) {
 					data["Factura"] = rows[1];
 					data["Lineas"] = rows[0];
 					res.json(data);
+					console.log(res);
 				}else{
 					data["Factura"] = 'No hay facturas';
 					res.json(data);

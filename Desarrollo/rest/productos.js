@@ -126,11 +126,10 @@ function updateProductos (app, connection){
 					consulta = consulta + " Eliminado='"+Eliminado+"'";
 				}
 				
-			
 				consulta = consulta + " WHERE Id_producto="+ID;
 				console.log(consulta);
 			}
-			
+			console.log(ID);
 			connection.query(consulta,function(err, rows, fields){
 				if(err){
 					data["Productos"] = "Error al actualizar datos compruebe que los datos estan bien introducidos";
