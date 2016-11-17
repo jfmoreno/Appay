@@ -16,7 +16,7 @@ function getTiendas (app, connection) {
 	
 		if(id != null){ //Si en la URI existe se crea la consulta de busqueda por id
 			var consulta="SELECT t.Id_Tienda, t.NIF, t.Nombre, t.Direccion, m.Municipio, p.Provincia, c.Comunidad, t.Latitud, t.Longitud, t.Id_gran_superficie, t.Estado, t.Eliminado FROM tienda t  JOIN municipios m ON t.Municipio=m.Id JOIN comunidades c ON t.Comunidad=c.Id JOIN provincias p ON t.Provincia=p.Id WHERE Id_Tienda="+id;
-		}else{ //Si no muestra todos los usuarios
+		}else{ //Si no muestra todas las tiendas
 			var consulta = "SELECT t.Id_Tienda, t.NIF, t.Nombre, t.Direccion, m.Municipio, p.Provincia, c.Comunidad, t.Latitud, t.Longitud, t.Id_gran_superficie, t.Estado, t.Eliminado FROM tienda t  JOIN municipios m ON t.Municipio=m.Id JOIN comunidades c ON t.Comunidad=c.Id JOIN provincias p ON t.Provincia=p.Id";
 		}
 		
@@ -55,7 +55,7 @@ function postTiendas (app, connection){
 		var consulta = "INSERT INTO facturas (";
 		var i=0;
 		if(Nombre != null){
-			consulta  += "'Nombre='";
+			consulta  += "'Nombre'";
 			i++;
 		}
 		if(Direccion != null){
@@ -237,8 +237,6 @@ function postTiendas (app, connection){
 		});
 	});
 }
-
-
 //Funcion que genera el PUT (Update) de Tiendas
 function updateTiendas (app, connection){
 	app.put('/tiendas',function(req,res){
@@ -349,7 +347,6 @@ function updateTiendas (app, connection){
 				consulta = consulta + " WHERE Id_Tienda="+ID;
 				console.log(consulta);
 			}
-
 		connection.query(consulta,function(err, rows, fields){
 				if(err){
 					data["Tiendas"] = "Error al actualizar datos compruebe que los datos estan bien introducidos";

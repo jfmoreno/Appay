@@ -3,6 +3,31 @@
  **** AQUI SE HARAN TODAS LAS PETICIONES RELACIONADAS CON LOS USUARIOS ****
  **************************************************************************
  **************************************************************************/
+/**
+ * @api {get} /usuarios/:id Obtener información de los usuarios
+ * @apiName GetUser
+ * @apiGroup Usuarios
+ *
+ * @apiParam {Numero} id Identificador único del usuario.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "firstname": "John",
+ *       "lastname": "Doe"
+ *     }
+ *
+ * @apiError UserNotFound The id of the User was not found.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "error": "UserNotFound"
+ *     }
+ */
 
 //Funcion que genera el GET de Usuarios
 function getUsuarios (app, connection) {
@@ -15,10 +40,11 @@ function getUsuarios (app, connection) {
 		var id = req.query.id; //Variable que recoje el id del usuario de la URI usuarios?id={num}
 	
 		if(id != null){ //Si en la URI existe se crea la consulta de busqueda por id
-			var consulta="SELECT u.Id_usuario, u.DNI, u.Nombre, u.Email, u.Direccion, c.Comunidad, p.Provincia, m.Municipio, u.CP, u.Telefono, u.Foto, u.Rol, u.Estado, u.Eliminado FROM usuarios u JOIN municipios m ON m.Id = u.Municipio JOIN comunidades c ON c.Id = u.Comunidad JOIN provincias p ON p.Id = u.Provincia WHERE Id_usuario="+id;
+			var consulta="SELECT u.Id_usuario, u.DNI, u.Nombre, u.Email, u.Direccion, c.Comunidad, p.Provincia, m.Municipio, u.CP, u.Telefono, u.Foto, t.Nombre_rol, u.Estado, u.Eliminado FROM usuarios u JOIN municipios m ON m.Id = u.Municipio JOIN comunidades c ON c.Id = u.Comunidad JOIN provincias p ON p.Id = u.Provincia JOIN tipo_usuario t ON u.Rol = t.Id_tipo_usuario WHERE Id_usuario="+id;
 		}else{ //Si no muestra todos los usuarios
-			var consulta = "SELECT u.Id_usuario, u.DNI, u.Nombre, u.Email, u.Direccion, c.Comunidad, p.Provincia, m.Municipio, u.CP, u.Telefono, u.Foto, u.Rol, u.Estado, u.Eliminado FROM usuarios u JOIN municipios m ON m.Id = u.Municipio JOIN comunidades c ON c.Id = u.Comunidad JOIN provincias p ON p.Id = u.Provincia";
+			var consulta = "SELECT u.Id_usuario, u.DNI, u.Nombre, u.Email, u.Direccion, c.Comunidad, p.Provincia, m.Municipio, u.CP, u.Telefono, u.Foto, t.Nombre_rol, u.Estado, u.Eliminado FROM usuarios u JOIN municipios m ON m.Id = u.Municipio JOIN comunidades c ON c.Id = u.Comunidad JOIN provincias p ON p.Id = u.Provincia JOIN tipo_usuario t ON u.Rol = t.Id_tipo_usuario";
 		}
+		
 		
 		connection.query(consulta,function(err, rows, fields){
 			if(rows.length != 0){
@@ -53,8 +79,196 @@ function postUsuarios (app, connection) {
 			"Errores":1,
 			"Usuarios":""
 		};
-		if(DNI && Nombre && Email && Direccion && Comunidad && Provincia && Localidad && CP && Telefono && Foto && Contra && Rol){
-			connection.query("INSERT INTO usuarios VALUES('',?,?,?,?,?,?,?,?,?,?,?,?,'1','0')",[DNI,Email,Nombre,Direccion,Comunidad,Provincia,Localidad,CP,Telefono,Foto,Contra,Rol],function(err, rows, fields){
+		var consulta = "INSERT INTO usuarios (";
+		var i=0;
+		if(DNI != null){
+			consulta  += "'DNI'";
+			i++;
+		}
+		if(Nombre != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'Nombre'";
+			i++;
+		}
+		if(Email != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'Email'";
+			i++;
+		}
+		if(Direccion != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'Direccion'";
+			i++;
+		}
+		if(Comunidad != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'Comunidad'";
+			i++;
+		}
+		if(Provincia != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'Provincia'";
+			i++;
+		}
+		if(Localidad != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'Localidad'";
+			i++;
+		}
+		if(CP != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'CP'";
+			i++;
+		}
+		if(Telefono != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'Telefono'";
+			i++;
+		}
+		if(Foto != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'Foto'";
+			i++;
+		}
+		if(Contra != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'Contra'";
+			i++;
+		}
+		if(Rol != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'Rol'";
+			i++;
+		}
+		consulta+=", Estado , Eliminado) VALUES (";
+		var i=0;
+		if(DNI != null){
+			consulta  += "'"+DNI+"'";
+			i++;
+		}
+		if(Nombre != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'"+Nombre+"'";
+			i++;
+		}
+		if(Email != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'"+Email+"'";
+			i++;
+		}
+		if(Direccion != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'"+Direccion+"'";
+			i++;
+		}
+		if(Comunidad != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'"+Comunidad+"'";
+			i++;
+		}
+		if(Provincia != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'"+Provincia+"'";
+			i++;
+		}
+		if(Localidad != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'"+Localidad+"'";
+			i++;
+		}
+		if(CP != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'"+CP+"'";
+			i++;
+		}
+		if(Telefono != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'"+Telefono+"'";
+			i++;
+		}
+		if(Foto != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'"+Foto+"'";
+			i++;
+		}
+		if(Contra != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'"+Contra+"'";
+			i++;
+		}
+		if(Rol != null){
+			if (i==1) {
+				consulta  += " , ";
+				i--;	
+			}
+			consulta  += "'"+Rol+"'";
+			i++;
+		}
+		consulta+=",'1','0')"
+			connection.query(consulta,function(err, rows, fields){
 				if(err){
 					data["Usuarios"] = "Error: Puede ser que el DNI ya exista o que algun campo este mal introducido";
 					console.log(err);
@@ -64,10 +278,6 @@ function postUsuarios (app, connection) {
 				}
 				res.json(data);
 			});
-		}else{
-			data["Usuarios"] = "Porfavor introduce todos los campos";
-			res.json(data);
-		}
 	});
 }
 
@@ -95,54 +305,118 @@ function updateUsuarios (app, connection){
 		};
 			var consulta = "UPDATE usuarios SET ";
 			if(ID != null){
+				var i=0;
 				if(DNI != null){
-					consulta = consulta + "DNI='"+DNI+"'";
+					consulta  += "DNI='"+DNI+"'";
+					i++;
 				}
 				if(Nombre != null){
-					consulta = consulta + " Nombre='"+Nombre+"'";
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "Nombre='"+Nombre+"'";
+					i++;
 				}
 				if(Email != null){
-					consulta = consulta + " Email='"+Email+"'";
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "Email='"+Email+"'";
+					i++;
 				}
 				if(Direccion != null){
-					consulta = consulta + " Direccion='"+Direccion+"'";
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "Direccion='"+Direccion+"'";
+					i++;
 				}
 				if(Comunidad != null){
-					consulta = consulta + " Comunidad='"+Comunidad+"'";
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "Comunidad='"+Comunidad+"'";
+					i++;
 				}
 				if(Provincia != null){
-					consulta = consulta + " Provincia='"+Provincia+"'";
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "Provincia='"+Provincia+"'";
+					i++;
 				}
 				if(Localidad != null){
-					consulta = consulta + " Localidad='"+Localidad+"'";
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "Localidad='"+Localidad+"'";
+					i++;
 				}
 				if(CP != null){
-					consulta = consulta + " CP='"+CP+"'";
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "CP='"+CP+"'";
+					i++;
 				}
 				if(Telefono != null){
-					consulta = consulta + " Telefono='"+Telefono+"'";
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "Telefono='"+Telefono+"'";
+					i++;
 				}
 				if(Foto != null){
-					consulta = consulta + " Foto='"+Foto+"'";
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "Foto='"+Foto+"'";
+					i++;
 				}
 				if(Contra != null){
-					consulta = consulta + " Contra='"+Contra+"'";
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "Contra='"+Contra+"'";
+					i++;
 				}
 				if(Rol != null){
-					consulta = consulta + " Rol='"+Rol+"'";
-				}
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "Rol='"+Rol+"'";
+					i++;
+				}	
 				if(Estado != null){
-					consulta = consulta + " Estado='"+Estado+"'";
-				}
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "Estado='"+Estado+"'";
+					i++;
+				}	
 				if(Eliminado != null){
-					consulta = consulta + " Eliminado='"+Eliminado+"'";
-				}
-				
+					if (i==1) {
+						consulta  += " , ";
+						i--;	
+					}
+					consulta  += "Eliminado='"+Eliminado+"'";
+					i++;
+				}	
 				consulta = consulta + " WHERE Id_usuario="+ID;
 				console.log(consulta);
 			}
-			
-
 			connection.query(consulta,function(err, rows, fields){
 				if(err){
 					data["Usuarios"] = "Error al actualizar datos compruebe que los datos estan bien introducidos";

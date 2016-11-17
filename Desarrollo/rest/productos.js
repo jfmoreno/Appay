@@ -11,12 +11,11 @@ function getProductos (app, connection) {
 			"Errores":1,
 			"Productos":""
 		};
-
-		var id = req.query.id; //Variable que recoje el id de la tienda de la URI tienda?id={num}
+		var id = req.query.id; //Variable que recoje el id de los productos de la URI productos?id={num}
 	
 		if(id != null){ //Si en la URI existe se crea la consulta de busqueda por id
 			var consulta="SELECT producto.Id_producto, producto.Codigo, producto.Nombre, producto.Precio, producto.Imagen, producto.Descripcion, producto.Stock, producto.URL_video, producto.Estado  FROM producto, tienda, producto_tienda WHERE producto.Id_producto = producto_tienda.Id_producto AND             producto_tienda.Id_tienda = tienda.Id_tienda AND tienda.Id_tienda="+id;
-		}else{ //Si no muestra todos los usuarios
+		}else{ //Si no muestra todos los productos
 			var consulta = "SELECT * FROM producto";
 		}
 		
@@ -96,6 +95,7 @@ function updateProductos (app, connection){
 			"Errores":1,
 			"Productos":""
 		};
+
 			var consulta = "UPDATE producto SET ";
 			if(ID != null){
 				if(Codigo != null){

@@ -6,6 +6,11 @@ var usuarios = require('./usuarios'); //Obtengo el archivo js de usuarios
 var productos = require('./productos'); //Obtengo el archivo js de productos
 var tiendas = require('./tiendas'); //Obtengo el archivo js de tiendas
 var facturas = require('./facturas'); //Obtengo el archivo js de facturas
+var municipios = require('./municipios'); //Obtengo el archivo js de municipios
+var provincias = require('./provincias'); //Obtengo el archivo js de provincias
+var comunidades = require('./comunidades'); //Obtengo el archivo js de comunidades
+
+
 var connection = mysql.createConnection({ //Conexion a la BBDD de MySQL
 		host     : 'localhost',
 		user     : 'root',
@@ -41,6 +46,15 @@ tiendas.getCoordenadas(app, connection);
 
 //Llamo a los metodos de la clase facturas
 facturas.getFacturas(app, connection);
+
+//Llamos a los metodos de la clase municipios
+municipios.getMunicipios(app, connection);
+
+//Llamo a los metodos de la clase provincias
+provincias.getProvincias(app, connection);
+
+//Llamo a los metodos de la clase comunidades
+comunidades.getComunidades(app, connection);
 
 
 //Mensaje de que se esta conectando el puerto
