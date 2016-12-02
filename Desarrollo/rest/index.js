@@ -46,6 +46,9 @@ tiendas.getCoordenadas(app, connection);
 
 //Llamo a los metodos de la clase facturas
 facturas.getFacturas(app, connection);
+facturas.getFacturasUsuarios(app, connection);
+facturas.postFacturas(app, connection);
+facturas.updateFacturas(app, connection);
 
 //Llamos a los metodos de la clase municipios
 municipios.getMunicipios(app, connection);

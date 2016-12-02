@@ -3,31 +3,6 @@
  **** AQUI SE HARAN TODAS LAS PETICIONES RELACIONADAS CON LOS USUARIOS ****
  **************************************************************************
  **************************************************************************/
-/**
- * @api {get} /usuarios/:id Obtener información de los usuarios
- * @apiName GetUser
- * @apiGroup Usuarios
- *
- * @apiParam {Numero} id Identificador único del usuario.
- *
- * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
- *
- * @apiSuccessExample Success-Response:
- *     HTTP/1.1 200 OK
- *     {
- *       "firstname": "John",
- *       "lastname": "Doe"
- *     }
- *
- * @apiError UserNotFound The id of the User was not found.
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 404 Not Found
- *     {
- *       "error": "UserNotFound"
- *     }
- */
 
 //Funcion que genera el GET de Usuarios
 function getUsuarios (app, connection) {
@@ -60,117 +35,120 @@ function getUsuarios (app, connection) {
 	});
 }
 
+
+
 //Funcion que genera el POST de Usuarios
 function postUsuarios (app, connection) {
 	app.post('/usuarios',function(req,res){
-		var DNI = req.body.dni;
-		var Nombre = req.body.nombre;
-		var Email = req.body.email;
-		var Direccion = req.body.direccion;
-		var Comunidad = req.body.comunidad;
-		var Provincia = req.body.provincia;
-		var Localidad = req.body.localidad;
-		var CP = req.body.cp;
-		var Telefono = req.body.telefono;
-		var Foto = req.body.foto;
-		var Contra = req.body.contra;
-		var Rol = req.body.rol;
+		var DNI = connection.escape(req.body.dni);
+		var Nombre = connection.escape(req.body.nombre);
+		var Email = connection.escape(req.body.email);
+		var Direccion = connection.escape(req.body.direccion);
+		var Comunidad = connection.escape(req.body.comunidad);
+		var Provincia = connection.escape(req.body.provincia);
+		var Localidad = connection.escape(req.body.localidad);
+		var CP = connection.escape(req.body.cp);
+		var Telefono = connection.escape(req.body.telefono);
+		var Foto = connection.escape(req.body.foto);
+		var Contra = connection.escape(req.body.contra);
+		var Rol = connection.escape(req.body.rol);
 		var data = {
 			"Errores":1,
 			"Usuarios":""
 		};
+		console.log(Nombre);
 		var consulta = "INSERT INTO usuarios (";
 		var i=0;
 		if(DNI != null){
-			consulta  += "'DNI'";
+			consulta  += "DNI";
 			i++;
 		}
 		if(Nombre != null){
 			if (i==1) {
-				consulta  += " , ";
+				consulta  += ", ";
 				i--;	
 			}
-			consulta  += "'Nombre'";
+			consulta  += "Nombre";
 			i++;
 		}
 		if(Email != null){
 			if (i==1) {
-				consulta  += " , ";
+				consulta  += ", ";
 				i--;	
 			}
-			consulta  += "'Email'";
+			consulta  += "Email";
 			i++;
 		}
 		if(Direccion != null){
 			if (i==1) {
-				consulta  += " , ";
+				consulta  += ", ";
 				i--;	
 			}
-			consulta  += "'Direccion'";
+			consulta  += "Direccion";
 			i++;
 		}
 		if(Comunidad != null){
 			if (i==1) {
-				consulta  += " , ";
+				consulta  += ", ";
 				i--;	
 			}
-			consulta  += "'Comunidad'";
+			consulta  += "Comunidad";
 			i++;
 		}
 		if(Provincia != null){
 			if (i==1) {
-				consulta  += " , ";
+				consulta  += ", ";
 				i--;	
 			}
-			consulta  += "'Provincia'";
+			consulta  += "Provincia";
 			i++;
 		}
 		if(Localidad != null){
 			if (i==1) {
-				consulta  += " , ";
+				consulta  += ", ";
 				i--;	
 			}
-			consulta  += "'Localidad'";
+			consulta  += "Municipio";
 			i++;
 		}
 		if(CP != null){
 			if (i==1) {
-				consulta  += " , ";
+				consulta  += ", ";
 				i--;	
 			}
-			consulta  += "'CP'";
+			consulta  += "CP";
 			i++;
 		}
 		if(Telefono != null){
 			if (i==1) {
-				consulta  += " , ";
+				consulta  += ", ";
 				i--;	
 			}
-			consulta  += "'Telefono'";
+			consulta  += "Telefono";
 			i++;
 		}
 		if(Foto != null){
 			if (i==1) {
-				consulta  += " , ";
+				consulta  += ", ";
 				i--;	
 			}
-			consulta  += "'Foto'";
+			consulta  += "Foto";
 			i++;
 		}
 		if(Contra != null){
 			if (i==1) {
-				consulta  += " , ";
+				consulta  += ", ";
 				i--;	
 			}
-			consulta  += "'Contra'";
+			consulta  += "Contra";
 			i++;
 		}
 		if(Rol != null){
 			if (i==1) {
-				consulta  += " , ";
+				consulta  += ", ";
 				i--;	
 			}
-			consulta  += "'Rol'";
+			consulta  += "Rol";
 			i++;
 		}
 		consulta+=", Estado , Eliminado) VALUES (";
@@ -284,21 +262,21 @@ function postUsuarios (app, connection) {
 //Funcion que genera el PUT (Update) de Usuarios
 function updateUsuarios (app, connection){
 	app.put('/usuarios',function(req,res){
-		var ID = req.body.id;
-		var DNI = req.body.dni;
-		var Nombre = req.body.nombre;
-		var Email = req.body.email;
-		var Direccion = req.body.direccion;
-		var Comunidad = req.body.comunidad;
-		var Provincia = req.body.provincia;
-		var Localidad = req.body.localidad;
-		var CP = req.body.cp;
-		var Telefono = req.body.telefono;
-		var Foto = req.body.foto;
-		var Contra = req.body.contra;
-		var Rol = req.body.rol;
-		var Estado = req.body.estado;
-		var Eliminado = req.body.eliminado;
+		var ID = connection.escape(req.body.id);
+		var DNI = connection.escape(req.body.dni);
+		var Nombre = connection.escape(req.body.nombre);
+		var Email = connection.escape(req.body.email);
+		var Direccion = connection.escape(req.body.direccion);
+		var Comunidad = connection.escape(req.body.comunidad);
+		var Provincia = connection.escape(req.body.provincia);
+		var Localidad = connection.escape(req.body.localidad);
+		var CP = connection.escape(req.body.cp);
+		var Telefono = connection.escape(req.body.telefono);
+		var Foto = connection.escape(req.body.foto);
+		var Contra = connection.escape(req.body.contra);
+		var Rol = connection.escape(req.body.rol);
+		var Estado = connection.escape(req.body.estado);
+		var Eliminado = connection.escape(req.body.eliminado);
 		var data = {
 			"Errores":1,
 			"Usuarios":""
@@ -415,8 +393,9 @@ function updateUsuarios (app, connection){
 					i++;
 				}	
 				consulta = consulta + " WHERE Id_usuario="+ID;
-				console.log(consulta);
 			}
+			console.log(consulta);
+
 			connection.query(consulta,function(err, rows, fields){
 				if(err){
 					data["Usuarios"] = "Error al actualizar datos compruebe que los datos estan bien introducidos";
@@ -435,7 +414,7 @@ function updateUsuarios (app, connection){
 //Funcion que genera el DELETE de Usuarios
 /*function deleteUsuarios (app, connection){
 	app.delete('/usuarios',function(req,res){
-		var Id = req.body.id;
+		var Id = connection.escape(req.body.id;
 		var data = {
 			"Errores":1,
 			"Usuarios":""

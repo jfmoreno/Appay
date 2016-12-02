@@ -4,6 +4,7 @@
  ***************************************************************************
  **************************************************************************/
 
+
 //Funcion que genera el GET de Tiendas
 function getTiendas (app, connection) {
     app.get('/tiendas',function(req,res){
@@ -37,65 +38,65 @@ function getTiendas (app, connection) {
 //Funcion que genera el POST de Tiendas
 function postTiendas (app, connection){
 	app.post('/tiendas',function(req,res){
-		var Nombre = req.body.nombre;
-		var Direccion = req.body.direccion;
-		var Provincia = req.body.provincia;
-		var Localidad = req.body.localidad;
-		var Comunidad = req.body.comunidad;
-		var Longitud = req.body.longitud;
-		var Latitud = req.body.latitud;
-		var ID_granSuperficie = req.body.gransuperficie;
-		var NIF = req.body.nif;
-		var Estado = req.body.estado;
-		var Eliminado = req.body.eliminado;
+		var Nombre = connection.escape(req.body.nombre);
+		var Direccion = connection.escape(req.body.direccion);
+		var Provincia = connection.escape(req.body.provincia);
+		var Localidad = connection.escape(req.body.localidad);
+		var Comunidad = connection.escape(req.body.comunidad);
+		var Longitud = connection.escape(req.body.longitud);
+		var Latitud = connection.escape(req.body.latitud);
+		var ID_granSuperficie = connection.escape(req.body.gransuperficie);
+		var NIF = connection.escape(req.body.nif);
+		var Estado = connection.escape(req.body.estado);
+		var Eliminado = connection.escape(req.body.eliminado);
 		var data = {
 			"Errores":1,
 			"Tiendas":""
 		};
-		var consulta = "INSERT INTO facturas (";
+		var consulta = "INSERT INTO tienda (";
 		var i=0;
 		if(Nombre != null){
-			consulta  += "'Nombre'";
+			consulta  += "Nombre";
 			i++;
 		}
 		if(Direccion != null){
 			if (i==1) {
-				consulta  += " , ";
+				consulta  += ", ";
 				i--;	
 			}
-			consulta  += "'Direccion'";
+			consulta  += "Direccion";
 			i++;
 		}
 		if(Provincia != null){
 			if (i==1) {
-				consulta  += " , ";
+				consulta  += ", ";
 				i--;	
 			}
-			consulta  += "'Provincia'";
+			consulta  += "Provincia";
 			i++;
 		}
 		if(Localidad != null){
 			if (i==1) {
-				consulta  += " , ";
+				consulta  += ", ";
 				i--;	
 			}
-			consulta  += "'Localidad'";
+			consulta  += "Municipio";
 			i++;
 		}
 		if(Comunidad != null){
 			if (i==1) {
-				consulta  += " , ";
+				consulta  += ", ";
 				i--;	
 			}
-			consulta  += "'Comunidad'";
+			consulta  += "Comunidad";
 			i++;
 		}
 		if(Longitud != null){
 			if (i==1) {
-				consulta  += " , ";
+				consulta  += ", ";
 				i--;	
 			}
-			consulta  += "'Longitud'";
+			consulta  += "Longitud";
 			i++;
 		}
 		if(Latitud != null){
@@ -103,39 +104,39 @@ function postTiendas (app, connection){
 				consulta  += " , ";
 				i--;	
 			}
-			consulta  += "'Latitud'";
+			consulta  += "Latitud";
 			i++;
 		}
 		if(ID_granSuperficie != null){
 			if (i==1) {
-				consulta  += " , ";
+				consulta  += ", ";
 				i--;	
 			}
-			consulta  += "'id_gran_superficie'";
+			consulta  += "id_gran_superficie";
 			i++;
 		}
 		if(NIF != null){
 			if (i==1) {
-				consulta  += " , ";
+				consulta  += ", ";
 				i--;	
 			}
-			consulta  += "'NIF'";
+			consulta  += "NIF";
 			i++;
 		}
 		if(Estado != null){
 			if (i==1) {
-				consulta  += " , ";
+				consulta  += ", ";
 				i--;	
 			}
-			consulta  += "'Estado'";
+			consulta  += "Estado";
 			i++;
 		}
 		if(Eliminado != null){
 			if (i==1) {
-				consulta  += " , ";
+				consulta  += ", ";
 				i--;	
 			}
-			consulta  += "'Eliminado'";
+			consulta  += "Eliminado";
 			i++;
 		}
 		consulta+=") VALUES (";
@@ -197,7 +198,7 @@ function postTiendas (app, connection){
 				consulta  += " , ";
 				i--;	
 			}
-			consulta  += "'"+Id_gran_superficie+"'";
+			consulta  += "'"+ID_granSuperficie+"'";
 			i++;
 		}
 		if(NIF != null){
@@ -240,18 +241,18 @@ function postTiendas (app, connection){
 //Funcion que genera el PUT (Update) de Tiendas
 function updateTiendas (app, connection){
 	app.put('/tiendas',function(req,res){
-    	var ID = req.body.id;
-		var Nombre = req.body.nombre;
-		var Direccion = req.body.direccion;
-		var Provincia = req.body.provincia;
-		var Localidad = req.body.localidad;
-		var Comunidad = req.body.comunidad;
-		var Longitud = req.body.longitud;
-		var Latitud = req.body.latitud;
-		var ID_granSuperficie = req.body.gransuperficie;
-		var NIF = req.body.nif;
-		var Estado = req.body.estado;
-		var Eliminado = req.body.eliminado;
+    	var ID = connection.escape(req.body.id_tienda);
+		var Nombre = connection.escape(req.body.nombre);
+		var Direccion = connection.escape(req.body.direccion);
+		var Provincia = connection.escape(req.body.provincia);
+		var Localidad = connection.escape(req.body.localidad);
+		var Comunidad = connection.escape(req.body.comunidad);
+		var Longitud = connection.escape(req.body.longitud);
+		var Latitud = connection.escape(req.body.latitud);
+		var ID_granSuperficie = connection.escape(req.body.gransuperficie);
+		var NIF = connection.escape(req.body.nif);
+		var Estado = connection.escape(req.body.estado);
+		var Eliminado = connection.escape(req.body.eliminado);
 		var data = {
 			"Errores":1,
 			"Tiendas":""
@@ -284,7 +285,7 @@ function updateTiendas (app, connection){
 						consulta  += " , ";
 						i--;	
 					}
-					consulta  += "Localidad='"+Localidad+"'";
+					consulta  += "Municipio='"+Localidad+"'";
 					i++;
 				}
 				if(Comunidad != null){
@@ -394,8 +395,8 @@ function getGranSuperficie (app, connection) {
 //Funcion que genera el POST de Grandes superficies
 function postGranSuperficie (app, connection){
 	app.post('/tiendas/gransuperficie',function(req,res){
-		var Nombre = req.body.nombre;
-		var Imagen = req.body.imagen;
+		var Nombre = connection.escape(req.body.nombre);
+		var Imagen = connection.escape(req.body.imagen);
 		
 		var data = {
 			"Errores":1,
@@ -424,9 +425,9 @@ function postGranSuperficie (app, connection){
 //Funcion que genera el PUT (Update) de Grandes superficies
 function updateGranSuperficie (app, connection){
 	app.put('/tiendas/gransuperficie',function(req,res){
-    	var ID = req.body.id;
-		var Nombre = req.body.nombre;
-		var Imagen = req.body.imagen;
+    	var ID = connection.escape(req.body.id);
+		var Nombre = connection.escape(req.body.nombre);
+		var Imagen = connection.escape(req.body.imagen);
 		var data = {
 			"Errores":1,
 			"Tiendas":""
